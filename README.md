@@ -9,7 +9,7 @@ Furthermore, I am trusting the users to be truthful about their location.
 ![Screenshot](sample.png)
 ## Method
 ### 1. Grabbing data using GitHub APIv4 GraphQL
-To get more data, go into /data, add your GitHub API token on line 14, then run `python github_get start <location> 10`
+To get more data, go into /data, add your GitHub API token on line 14 in github_get.py, then run `python github_get.py start <location> 10`
 ### 2. Showing new data on DataMaps (built on D3)
 In country_licenses.html, near the end of the file, add: `grabData(<location>, <location's iso alpha-3>)`. The iso alpha-3 code can be found [here](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
 ## Demo
