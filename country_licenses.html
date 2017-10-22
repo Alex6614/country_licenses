@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <!-- I recommend you host this file on your own, since this will change without warning -->
+  <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <h2>Countries and their licenses</h2>
+  <div id="container1" style="position: relative; width: 80%; height: 80%;"></div>
+     <script>
+       //basic map config with custom fills, mercator projection
+
+      defaultData = {
+      };
+
+      var map = new Datamap({
+        scope: 'world',
+        element: document.getElementById('container1'),
+        projection: 'mercator',
+        height: 1000,
+        fills: {
+          defaultFill: '#f0af0a',
+          lt50: 'green',
+          gt50: 'red'
+        },
+        
+        data: defaultData,
+        geographyConfig: {
+            popupTemplate: function(geo, data) {
+                if(data == null) {
+                  return ['<div class="hoverinfo"><strong>',
+                        "Country: " + geo.properties.name + "<br>",
+                        '</strong></div>'].join('');
+                }
+                return ['<div class="hoverinfo"><strong>',
+                        "Country: " + geo.properties.name + "<br>",
+                        data.data[0].id + " : " + data.data[0].usage + "%<br>",
+                        data.data[1].id + " : " + data.data[1].usage + "%<br>",
+                        data.data[2].id + " : " + data.data[2].usage + "%<br>",
+                        data.data[3].id + " : " + data.data[3].usage + "%<br>",
+                        data.data[4].id + " : " + data.data[4].usage + "%<br>",
+                        data.data[5].id + " : " + data.data[5].usage + "%<br>",
+                        data.data[6].id + " : " + data.data[6].usage + "%<br>",
+                        "Total repos: " + data.total,
+                        '</strong></div>'].join('');
+            }
+        }
+      });
+
+      function grabData(fileName, countryCode) {
+          var total;
+          defaultData[countryCode] = {data: [], total: 0};
+          $.getJSON("data/" + fileName + ".json", function (data) {
+            apache =  data["Apache License 2.0"];
+            bsd = data['BSD 2-clause "Simplified" License'] + data['BSD 3-clause "New" or "Revised" License'];
+            gnuGreater = data['GNU Affero General Public License v3.0'] + data['GNU General Public License v2.0'] + data['GNU General Public License v3.0'];
+            gnuLesser = data['GNU Lesser General Public License v2.1'] + data['GNU Lesser General Public License v3.0'];
+            mit = data['MIT License'];
+            other = data['Creative Commons Attribution 4.0'] + data['Eclipse Public License 1.0'] + data['Mozilla Public License 2.0'] + data.Other + data['The Unlicense'];
+            none = data.none;
+            total = apache + bsd + gnuGreater + gnuLesser + mit + other + none;
+            country_data = [
+              {"id" : "Apache", "usage" : (apache * 100.0/total).toFixed(2)},
+              {"id" : "BSD", "usage" : (bsd * 100.0/total).toFixed(2)},
+              {"id" : "GNU", "usage" : (gnuGreater * 100.0/total).toFixed(2)},
+              {"id" : "GNU Lesser", "usage" : (gnuLesser * 100.0/total).toFixed(2)},
+              {"id" : "MIT", "usage" : (mit * 100.0/total).toFixed(2)},
+              {"id" : "Other", "usage" : (other * 100.0/total).toFixed(2)},
+              {"id" : "None", "usage" : (none * 100.0/total).toFixed(2)},
+
+            ];
+            country_data.sort(function (a, b){
+              return b.usage - a.usage;
+            });
+            defaultData[countryCode].data = country_data;
+            defaultData[countryCode].total = total;
+            defaultData[countryCode].fillKey = 'lt50';
+            map.updateChoropleth(defaultData);
+          });
+      }
+
+      grabData("Australia", "AUS");
+      grabData("Austria", "AUT");
+      grabData("Brazil", "BRA");
+      grabData("Canada", "CAN");
+      grabData("China", "CHN");
+      grabData("Estonia", "EST");
+      grabData("France", "FRA");
+      grabData("Germany", "DEU");
+      grabData("Hong Kong", "HKG");
+      grabData("Hungary", "HUN");
+      grabData("India", "IND");
+      grabData("Indonesia", "IDN");
+      grabData("Iran", "IRN");
+      grabData("Italy", "ITA");
+      grabData("Japan", "JPN");
+      grabData("Korea", "KOR");
+      grabData("Luxembourg", "LUX");
+      grabData("Mexico", "MEX");
+      grabData("Netherlands", "NLD");
+      grabData("Norway", "NOR");
+      grabData("Russia", "RUS");
+      grabData("Saudi Arabia", "SAU");
+      grabData("Singapore", "SGP");
+      grabData("Spain", "ESP");
+      grabData("Switzerland", "CHE");
+      grabData("Taiwan", "TWN");
+      grabData("Turkey", "TUR");
+      grabData("Ukraine", "UKR");
+      grabData("US", "USA");
+      grabData("UK", "GBR");
+      grabData("Mongolia", "MNG");
+      grabData("Malaysia", "MYS");
+      grabData("Ireland", "IRL");
+      grabData("Lithuania", "LTU");
+      grabData("Latvia", "LVA");
+      grabData("Belarus", "BLR");
+      grabData("Thailand", "THA");
+      grabData("Sweden", "SWE");
+      grabData("Kazakhstan", "KAZ");
+      grabData("Finland", "FIN");
+      grabData("Denmark", "DNK");
+      grabData("Belgium", "BEL");
+      grabData("Poland", "POL");
+      grabData("Portugal", "PRT");
+      grabData("Greenland", "GRL");
+      grabData("South Africa", "ZAF");
+      grabData("Argentina", "ARG");
+      grabData("Iceland", "ISL");
+      grabData("New Zealand", "NZL");
+      grabData("Nepal", "NPL");
+      grabData("Czech", "CZE");
+      grabData("Slovakia", "SVK");
+      grabData("Iraq", "IRQ");
+      grabData("Iraq", "IRQ");
+      grabData("Philippines", "PHL");
+      grabData("North Korea", "PRK");
+      grabData("Chile", "CHL");
+
+     </script>
+</body>
