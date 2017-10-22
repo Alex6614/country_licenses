@@ -11,7 +11,7 @@ if(len(sys.argv) != 4):
 	exit()
 
 # Set up query and apply token
-TOKEN = "19c67deb6357e7345bc899cfad3bddef184101c1"
+TOKEN = ""
 LOCATION = sys.argv[2]
 INCR_SIZE = "100"
 ITERATIONS = int(sys.argv[3])
