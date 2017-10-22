@@ -6,6 +6,7 @@ Note that one should use the statistics carefully. GitHub only allows for 1,000 
 This would mean that it is not a great representation of the people in a country, as it is biased towards those that have a lot of repos.
 
 Furthermore, I am trusting the users to be truthful about their location.
+![Screenshot](sample.png)
 ## Method
 ### 1. Grabbing data using GitHub APIv4 GraphQL
 To get more data, go into /data, then run `python github_get start <location> 10`
